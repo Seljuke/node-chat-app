@@ -3,7 +3,7 @@ var socket = io();
 function sendMessage(){    
     var message = document.getElementById("m");
     var data = {
-        from: "Kullanıcı"+Math.floor((Math.random() * 10) + 1).toString(),
+        from: "Kullanıcı"+window.userNUMBER,
         text: message.value
     };
     console.log(data);
