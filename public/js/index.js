@@ -3,14 +3,14 @@ var socket = io();
 function sendMessage(){    
     var message = document.getElementById("m");
     var data = {
-        from: "kullanıcı",
+        from: "Kullanıcı"+Math.floor((Math.random() * 10) + 1).toString(),
         text: message.value
     };
     console.log(data);
     message.value = "";
-    var chatArea = document.getElementById("messages");
-    chatArea.innerHTML = chatArea.innerHTML + "<li>" +
-    data.from + ": "+ data.text + "</li>";
+    // var chatArea = document.getElementById("messages");
+    // chatArea.innerHTML = chatArea.innerHTML + "<li>" +
+    // data.from + ": "+ data.text + "</li>";
 
     socket.emit("createMessage", data);
 }
@@ -27,6 +27,6 @@ socket.on("disconnect", function () {
 socket.on("newMessage", function (data) {
     console.log("New message recived: ", data);
     var chatArea = document.getElementById("messages");
-    chatArea.innerHTML = chatArea.innerHTML + "<li>" + data.createdAt + " - server: " + ": "+ data.text + "</li>";
+    chatArea.innerHTML = chatArea.innerHTML + "<li>" + data.createdAt + " - " + data.from + ": "+ data.text + "</li>";
 });
 

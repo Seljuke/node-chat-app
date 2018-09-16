@@ -22,7 +22,7 @@ io.on("connection", (socket) => {
     socket.on("createMessage", (data) =>{
         let message = _.pick(data, ["from", "text"]);
         console.log("New message came. ", message);
-        socket.emit("newMessage", {
+        io.emit("newMessage", {
             from: message.from,
             text: message.text,
             createdAt: new Date()
