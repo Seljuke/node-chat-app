@@ -18,7 +18,17 @@ app.use(bodyParser.json());
 
 io.on("connection", (socket) => {
     console.log("New User Connected");  
-    
+
+    socket.on("createMessage", (data) =>{
+        let message = _.pick(data, ["from", "text"]);
+        console.log("New message came. ", message);
+        socket.emit("newMessage", {
+            from: message.from,
+            text: message.text,
+            createdAt: new Date()
+        });
+    });
+
     socket.on("disconnect", () => {
         console.log("User disconnected");        
     });
