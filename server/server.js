@@ -31,11 +31,12 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("newMessage", generateMessage("SERVER",
     userID+ " joined the chat."));
 
-    socket.on("createMessage", (data) =>{
+    socket.on("createMessage", (data, callback) =>{
         let message = _.pick(data, ["from", "text"]);
         console.log("New message came. ", message);
         socket.broadcast.emit("newMessage", generateMessage(message.from,
             message.text));
+        callback("SERVER DONE");
     });
 
     socket.on("disconnect", () => {
