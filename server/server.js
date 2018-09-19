@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
     });
 
     socket.emit("newMessage", generateMessage("SERVER",
-        "Welcome to Chat Room " + userID));
+        "Welcome to Chat Room user " + userID));
 
     socket.broadcast.emit("newMessage", generateMessage("SERVER",
     userID+ " joined the chat."));
@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
     socket.on("createMessage", (data, callback) =>{
         let message = _.pick(data, ["from", "text"]);
         console.log("New message came. ", message);
-        socket.broadcast.emit("newMessage", generateMessage(message.from,
+        io.emit("newMessage", generateMessage(message.from,
             message.text));
         callback("SERVER DONE");
     });
