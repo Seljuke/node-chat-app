@@ -2,7 +2,7 @@ const expect = require("expect");
 
 var {isRealString} = require("../utils/validation");
 
-describe("isRealString test", () => {
+describe("isRealString Func", () => {
     it("should return false with non-string values", () => {
         expect(isRealString(1234)).toBeFalsy();
         expect(isRealString({name: "wow"})).toBeFalsy();

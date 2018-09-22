@@ -33,6 +33,15 @@ socket.on("disconnect", function () {
     
 });
 
+socket.on("updateUserList", function (users) {
+    var ol = $("<ol></ol>");
+
+    users.forEach(function (user) {
+        ol.append($("<li></li>").text(user));
+    });
+    $("#users").html(ol);
+});
+
 socket.on("newMessage", function (data) {
     var html = Mustache.render($("#message-template").html(), {
         text: data.text,

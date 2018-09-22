@@ -3,7 +3,7 @@ const expect = require("expect");
 var {generateMessage, generateLocationMessage} = require("../utils/message");
 
 
-describe("generateMessage", () => {
+describe("generateMessage Func", () => {
     it("should generate correct message object", () => {
         var message = generateMessage("someone", "something");
         expect(message).toMatchObject({from: "someone",text: "something"});
@@ -11,7 +11,7 @@ describe("generateMessage", () => {
     });
 });
 
-describe("generateLocationMessage", () => {
+describe("generateLocationMessage Func", () => {
     it("should generate correct location object", () => {
         var message = generateLocationMessage("someone", 1, 2);
         expect(message).toMatchObject({
