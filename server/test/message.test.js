@@ -1,6 +1,6 @@
 const expect = require("expect");
 
-var {generateMessage, generateLocationMessage} = require("./message");
+var {generateMessage, generateLocationMessage} = require("../utils/message");
 
 
 describe("generateMessage", () => {
