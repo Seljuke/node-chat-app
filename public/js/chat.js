@@ -50,7 +50,7 @@ socket.on("newLocationMessage", function(message) {
     scrollToBottom();
 });
 
-jQuery("#message-form").on("submit", function (e) {
+$("#message-form").on("submit", function (e) {
     e.preventDefault();
     var data = {
         from: window.userNUMBER,
