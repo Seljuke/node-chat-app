@@ -23,11 +23,6 @@ app.use(bodyParser.json());
 
 io.on("connection", (socket) => {
     console.log("New User Connected");
-    var userID = "Kullanıcı"+Math.floor((Math.random() * 100) + 1).toString();
-
-    socket.emit("newUserID", {
-        id: userID
-    });
 
     socket.on("join", (params, callback) => {
         if(!isRealString(params.name) || !isRealString(params.room)) {
@@ -45,16 +40,24 @@ io.on("connection", (socket) => {
     });
 
     socket.on("createMessage", (data, callback) =>{
-        let message = _.pick(data, ["from", "text"]);
-        console.log("New message came. ", message);
-        io.emit("newMessage", generateMessage(message.from,
-            message.text));
-        callback("SERVER DONE");
+        let message = _.pick(data, ["text"]);
+        let user = users.getUser(socket.id);
+
+        if(user && isRealString(message.text)) {
+            io.to(user.room).emit("newMessage", generateMessage(user.name,
+                message.text));
+            callback("SERVER DONE");
+        }
+        callback("NOPE!");
     });
 
     socket.on("createLocationMessage", (data) => {
-        let message = _.pick(data, ["from", "latitude", "longitude"]);
-        io.emit("newLocationMessage", generateLocationMessage(message.from, message.latitude, message.longitude));
+        let message = _.pick(data, ["latitude", "longitude"]);
+        let user = users.getUser(socket.id);
+        if(user) {
+            io.to(user.room).emit("newLocationMessage",generateLocationMessage(user.name, message.latitude, message.longitude));
+        }
+        
     });
 
     socket.on("disconnect", () => {

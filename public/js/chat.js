@@ -52,10 +52,6 @@ socket.on("newMessage", function (data) {
     scrollToBottom();
 });
 
-socket.on("newUserID", function (data) {
-    window.userNUMBER = data.id;
-});
-
 socket.on("newLocationMessage", function(message) {
     var html = Mustache.render($("#location-message-template").html(), {
         url: message.url,
@@ -71,7 +67,6 @@ socket.on("newLocationMessage", function(message) {
 $("#message-form").on("submit", function (e) {
     e.preventDefault();
     var data = {
-        from: window.userNUMBER,
         text: $("#m-input").val()
     };
     $("#m-input").val("");
@@ -89,7 +84,6 @@ locationButton.on("click", function () {
     $("#send-location").attr("disabled", true);
     navigator.geolocation.getCurrentPosition(function (position) {
         socket.emit("createLocationMessage", {
-            from: window.userNUMBER,
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
         });
