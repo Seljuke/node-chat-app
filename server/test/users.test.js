@@ -1,6 +1,6 @@
 const expect = require("expect");
 
-var {Users} = require("../utils/users");
+const {Users} = require("../utils/users");
 
 describe("Users Class", () => {
     var users;
@@ -22,43 +22,55 @@ describe("Users Class", () => {
     });
 
     it("should add user properly", () => {
-        var users = new Users();
-        var user = {
+        let users = new Users();
+        let user = {
             id: "123",
             name: "trialName",
             room: "trialRoom"
         };
-        var resUser = users.addUser(user.id, user.name, user.room);
+        let resUser = users.addUser(user.id, user.name, user.room);
         expect(users.users).toEqual([user]);
     });
 
     it("should return names for firstRoom", () => {
-        var userList = users.getUserList("firstRoom");
+        let userList = users.getUserList("firstRoom");
 
         expect(userList).toEqual(["first", "third"]);
     });
     it("should return names for secondRoom", () => {
-        var userList = users.getUserList("secondRoom");
+        let userList = users.getUserList("secondRoom");
 
         expect(userList).toEqual(["second"]);
     });
     it("should get user", () => {
-        var user = users.getUser("1");
+        let user = users.getUser("1");
 
         expect(user).toMatchObject(users.users[0]);
     });
     it("should remove user", () => {
-        var user = users.removeUser("2");
+        let user = users.removeUser("2");
 
         expect(user).toMatchObject({id: "2",name: "second",room: "secondRoom"});
         expect(users.users.length).toBe(2);
     });
     it("should not get user", () => {
-        var user = users.getUser("4");
+        let user = users.getUser("4");
         expect(user).toBeUndefined();
     });
     it("should not remove user", () => {
-        var user = users.removeUser("4");
+        let user = users.removeUser("4");
         expect(user).toBeUndefined();
+    });
+    it("should return unique rooms", () => {
+        let rooms = users.getRoomList();
+        expect(rooms).toContain("firstRoom", "secondRoom");
+    });
+    it("should return true existing user", () => {
+        let user = users.checkUserExist("third");
+        expect(user).toBeTruthy();
+    });
+    it("should return false nonexisting user", () => {
+        let user = users.checkUserExist("bir");
+        expect(user).toBeFalsy();
     });
 });

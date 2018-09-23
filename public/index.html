@@ -4,26 +4,61 @@
         <meta charset="utf-8">
         <title>Join | ChatApp</title>
         <meta name="viewport" content="width=device-width, initial-sclae=1, user-scalable=no">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/styles.css">
     </head>
     <body class="centered-form">
         <div class="centered-form__form">
-            <form action="/chat.html">
+            <form action="" id="join-form">
+                <div>
                     <div class="form-field">
                         <h3>Join a Chat</h3>
                     </div>
                     <div class="form-field">
                         <label for="Uname">User name</label>
-                        <input id="Uname" type="text" name="name" autofocus autocomplete="off"/>
+                        <input id="Uname" type="text" class="form-control" name="name" placeholder="Jhon" autofocus autocomplete="off" required/>
+                        <div id="validateToolTip"></div>
                     </div>
                     <div class="form-field">
                         <label for="Rname">Room name</label>
-                        <input id="Rname" type="text" name="room" autocomplete="off"/>
+                        <input list="Rname" type="text" name="room" placeholder="LOTR" autocomplete="off" required/>
+                        <datalist id="Rname" title="Join active one or create new"></datalist>                                                     
                     </div>
                     <div class="form-field">
-                        <button>Join</button>
+                        <button id="join-button">Join</button>
                     </div>
+                </div>
+                <script id="name-validate-template" type="text/template">
+                    <span style="color:red">{{invalidMessage}}</span>                        
+                </script>
+
+                <script id="rooms-list-template" type="text/template">
+                    <option value="{{OptionRooms}}"></option>
+                </script>   
+
+                <!-- <div class="form-row">
+                    <script id="rooms-list-template" type="text/template">
+                        <div class="form-field">
+                            <label for="Rname">Room name</label>
+                            <input list="Rname" type="text" name="room" placeholder="LOTR" autocomplete="off" required/>
+                            <datalist id="Rname" title="Join active one or create new">
+                                <option value="{{OptionRooms}}"></option>
+                            </datalist>
+                        </div>
+                        <div class="form-field">
+                            <button id="join-button">Join</button>
+                        </div>
+                    </script>
+                </div>      -->
             </form>
         </div>
+        
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/libs/datalist-polyfill.min.js"></script>
+        <script src="/js/libs/jquery-3.3.1.min.js"></script>
+        <script src="/js/libs/mustache.js"></script>
+        <script src="/js/libs/bootstrap.min.js"></script>
+        <script src="/js/index.js"></script>
+        
     </body>
 </html>

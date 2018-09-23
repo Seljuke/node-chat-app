@@ -24,6 +24,20 @@ app.use(bodyParser.json());
 io.on("connection", (socket) => {
     console.log("New User Connected");
 
+    socket.on("updateRoomList", (data, callback) => {
+        callback(users.getRoomList());
+    });
+
+    socket.on("checkUserName", (data, callback) => {
+        if(users.checkUserExist(data.name)){
+            console.log("NOK");
+            callback("NOK");
+            return;
+        }
+        console.log("OK");
+        callback("OK");
+    });
+
     socket.on("join", (params, callback) => {
         if(!isRealString(params.name) || !isRealString(params.room)) {
             return callback("Name and room name are requiered.");
@@ -46,9 +60,7 @@ io.on("connection", (socket) => {
         if(user && isRealString(message.text)) {
             io.to(user.room).emit("newMessage", generateMessage(user.name,
                 message.text));
-            callback("SERVER DONE");
         }
-        callback("NOPE!");
     });
 
     socket.on("createLocationMessage", (data) => {

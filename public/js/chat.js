@@ -1,14 +1,14 @@
 var socket = io();
 
 function scrollToBottom() {
-    var messages = $("#messages");
-    var newMessage = messages.children("li:last-child");
+    let messages = $("#messages");
+    let newMessage = messages.children("li:last-child");
 
-    var newMessageHeight = newMessage.innerHeight();
-    var lastMessageHeight = newMessage.prev().innerHeight();
-    var clientHeight = messages.prop("clientHeight");
-    var scrollTop = messages.prop("scrollTop");
-    var scrollHeight = messages.prop("scrollHeight");
+    let newMessageHeight = newMessage.innerHeight();
+    let lastMessageHeight = newMessage.prev().innerHeight();
+    let clientHeight = messages.prop("clientHeight");
+    let scrollTop = messages.prop("scrollTop");
+    let scrollHeight = messages.prop("scrollHeight");
 
     if(clientHeight + scrollTop + lastMessageHeight + newMessageHeight>= scrollHeight){
         messages.scrollTop(scrollHeight);       
@@ -16,7 +16,7 @@ function scrollToBottom() {
 };
 
 socket.on("connect", function () {
-    var params = jQuery.deparam(window.location.search);
+    let params = jQuery.deparam(window.location.search);
 
     socket.emit("join", params, function (err) {
         if (err){
@@ -34,7 +34,7 @@ socket.on("disconnect", function () {
 });
 
 socket.on("updateUserList", function (users) {
-    var ol = $("<ol></ol>");
+    let ol = $("<ol></ol>");
 
     users.forEach(function (user) {
         ol.append($("<li></li>").text(user));
@@ -43,7 +43,7 @@ socket.on("updateUserList", function (users) {
 });
 
 socket.on("newMessage", function (data) {
-    var html = Mustache.render($("#message-template").html(), {
+    let html = Mustache.render($("#message-template").html(), {
         text: data.text,
         from: data.from,
         createdAt: data.createdAt
@@ -53,7 +53,7 @@ socket.on("newMessage", function (data) {
 });
 
 socket.on("newLocationMessage", function(message) {
-    var html = Mustache.render($("#location-message-template").html(), {
+    let html = Mustache.render($("#location-message-template").html(), {
         url: message.url,
         from: message.from,
         createdAt: message.createdAt
@@ -66,16 +66,14 @@ socket.on("newLocationMessage", function(message) {
 
 $("#message-form").on("submit", function (e) {
     e.preventDefault();
-    var data = {
+    let data = {
         text: $("#m-input").val()
     };
     $("#m-input").val("");
-    socket.emit("createMessage", data, function (callData) {
-        console.log(callData);
-    });
+    socket.emit("createMessage", data);
 });
 
-var locationButton = $("#send-location");
+let locationButton = $("#send-location");
 locationButton.on("click", function () {
     if (!navigator.geolocation){
         return alert("Geolocation not supported by your browser.");

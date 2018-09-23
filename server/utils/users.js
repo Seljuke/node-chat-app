@@ -31,10 +31,23 @@ class Users {
     }
 
     getUserList (room) {
-        var users = this.users.filter((user) => user.room === room);
-        var namesArray = users.map((user) => user.name);
+        let users = this.users.filter((user) => user.room === room);
+        let namesArray = users.map((user) => user.name);
 
         return namesArray;
+    }
+
+    getRoomList () {
+        let roomsArray = [...new Set(this.users.map((user) => user.room))];
+        return roomsArray;
+    }
+
+    checkUserExist (name) {
+        let result = this.users.filter((user) => user.name === name);
+        if(result.length > 0){
+            return true;
+        }
+        return false;
     }
 }
 
