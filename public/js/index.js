@@ -36,7 +36,7 @@ $("#join-form").on("submit", function (event) {
             $("#validateToolTip").html("");
             $("#join-button").text("Join");
             $("#join-button").attr("disabled", false);
-            let newaction = "/chat.html";
+            let newaction = "./chat.html";
             $('#join-form').attr('action', newaction);
             $("#join-form").submit();
         }
