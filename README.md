@@ -1,3 +1,5 @@
+![](https://travis-ci.com/Seljuke/node-chat-app.svg?token=ZLqAVz9Zyp4xTfQdRCJw&branch=master)
+
 ## node-chat-app
 Chat app with socket.io and Node.js
 
