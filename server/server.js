@@ -30,11 +30,9 @@ io.on("connection", (socket) => {
 
     socket.on("checkUserName", (data, callback) => {
         if(users.checkUserExist(data.name)){
-            console.log("NOK");
             callback("NOK");
             return;
         }
-        console.log("OK");
         callback("OK");
     });
 
