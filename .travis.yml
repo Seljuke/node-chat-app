@@ -1,14 +1,42 @@
+sudo: required
 language: node_js
 node_js:
 - '10'
+services:
+  - docker
+
 before_script:
 - export NODE_ENV=production
 - npm install
+
 branches:
   only:
   - master
+
+jobs:
+  include:
+    - stage: test
+      script: npm test
+    - stage: docker build & psuh
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t seljukes-node-chat-app .
+      - docker images
+      - docker tag seljukes-node-chat-app $DOCKER_USERNAME/seljukes-node-chat-app
+      - docker push $DOCKER_USERNAME/seljukes-node-chat-app
+    - stage: deploy heroku
+      script: skip
+      deploy:
+        provider: heroku
+        app: seljukes-node-chat-app
+        api_key:
+          secure: BddFfOJwgxOou8nbOvqewsyTnCU5c20JEYYnt5qIaMZWqRCTGvlFrhAUXEau6XP5j0+dprePnwtbNn8akZSGeD1tlAM9DPsjO7DvuozrUh1deAsOEO+pLJRvh0orvVAViCqhEsdJ6JVeIBtByDmMKUOmODm5a4qs6gbG1dr9QV0FAnjQTBmuvEdhkVZmbmd7LBjzYPBl8f/w/gp4LJXsi+KHmin0uSvvjlIiNnBwr9XDPZ79B9xiQSzvLhBskm0ON9qnSf80ysjXTNMk82VC4m341O537d83kwcNOK38Hh9oUC3cHtcXx2gYpE+as+4O6xxMH4XfrRc1jOm1iCnZBBsp4RVQXoqJzygZAsLSnaM5WdrSCiHxtYucR/RLjwfPPRntVZ3uztq2oqiSWitTm+sZzFUjCZuJsbRVAXclo8R0Xkxk2RzswX5lC1iZwWNML0cH+e/aBrqxAaNLvvb1a1ATNDAAITXSeHxrhLMnOAw3ppGBrduE/UNSd3ES46isiF1kXvt5tLhHo6MJyCI5A5NQbXj+gLCLVwSfaCcDLSv/U+eUqbLftf6xXxiE5sKJNKbBPZCY5Rq4C5XN1fIbkZzF2VkEXrFH+SM0SH6e6zzBWC5k0YP2WY3jG/rpidusVY304SmVrp8YybSE+bi1mDjPtcwmTVcp1ofCXZNFXOc=
+    - stage: test heroku
+      script: 'curl http://seljukes-node-chat-app.herokuapp.com'
+
+
 deploy:
-  provider: heroku
-  app: seljukes-node-chat-app
-  api_key:
-    secure: BddFfOJwgxOou8nbOvqewsyTnCU5c20JEYYnt5qIaMZWqRCTGvlFrhAUXEau6XP5j0+dprePnwtbNn8akZSGeD1tlAM9DPsjO7DvuozrUh1deAsOEO+pLJRvh0orvVAViCqhEsdJ6JVeIBtByDmMKUOmODm5a4qs6gbG1dr9QV0FAnjQTBmuvEdhkVZmbmd7LBjzYPBl8f/w/gp4LJXsi+KHmin0uSvvjlIiNnBwr9XDPZ79B9xiQSzvLhBskm0ON9qnSf80ysjXTNMk82VC4m341O537d83kwcNOK38Hh9oUC3cHtcXx2gYpE+as+4O6xxMH4XfrRc1jOm1iCnZBBsp4RVQXoqJzygZAsLSnaM5WdrSCiHxtYucR/RLjwfPPRntVZ3uztq2oqiSWitTm+sZzFUjCZuJsbRVAXclo8R0Xkxk2RzswX5lC1iZwWNML0cH+e/aBrqxAaNLvvb1a1ATNDAAITXSeHxrhLMnOAw3ppGBrduE/UNSd3ES46isiF1kXvt5tLhHo6MJyCI5A5NQbXj+gLCLVwSfaCcDLSv/U+eUqbLftf6xXxiE5sKJNKbBPZCY5Rq4C5XN1fIbkZzF2VkEXrFH+SM0SH6e6zzBWC5k0YP2WY3jG/rpidusVY304SmVrp8YybSE+bi1mDjPtcwmTVcp1ofCXZNFXOc=
+  provider: script
+  script: bash docker_push
+  on:
+    branch: master
