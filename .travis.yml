@@ -7,7 +7,6 @@ services:
 
 before_script:
 - export NODE_ENV=production
-- npm install
 
 branches:
   only:
