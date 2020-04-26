@@ -1,6 +1,6 @@
 kind: pipeline
 name: basic-example
-type: docker
+type: kubernetes
 
 clone:
   disable: true
