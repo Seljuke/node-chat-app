@@ -3,7 +3,7 @@
 ## node-chat-app
 Chat app with socket.io and Node.js
 
-[Demo](https://seljukes-node-chat-app.herokuapp.com/)
+[Demo](https://seljukes-node-chat-app.herokuapp.com)
 
 ## Installation
 ```
