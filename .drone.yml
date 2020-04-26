@@ -1,0 +1,40 @@
+kind: pipeline
+name: basic-example
+type: docker
+
+clone:
+  disable: true
+
+steps:
+- name: skip_tls_clone
+  image: plugins/git
+  settings:
+    depth: 10
+    skip_verify: true
+
+- name: test
+  image: busybox
+  commands:
+  - echo "this is a dummy test step"
+
+- name: build
+  image: busybox
+  commands:
+  - echo "this is a dummy build step"
+  - echo "dummy artifact" > /tmp/runtime-volume/data.txt
+  volumes:
+  - name: runtime-volume
+    path: /tmp/runtime-volume
+
+- name: deploy
+  image: busybox
+  commands:
+  - echo "this is a dummy deploy step"
+  - cat /tmp/runtime-volume/data.txt
+  volumes:
+  - name: runtime-volume
+    path: /tmp/runtime-volume
+
+volumes:
+  - name: runtime-volume
+    temp: {}
