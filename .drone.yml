@@ -15,7 +15,7 @@ steps:
 - name: test
   image: busybox
   commands:
-  - echo "this is a dummy test step2"
+  - echo "this is a dummy test step"
 
 - name: build
   image: busybox
