@@ -16,7 +16,7 @@ jobs:
   include:
     - stage: test
       script: npm test
-    - stage: docker build & psuh
+    - stage: docker build & push
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker build -t seljukes-node-chat-app .

@@ -1,40 +1,20 @@
 kind: pipeline
-name: basic-example
 type: kubernetes
-
-clone:
-  disable: true
+name: basic-example
 
 steps:
-- name: skip_tls_clone
-  image: plugins/git
-  settings:
-    depth: 10
-    skip_verify: true
-
 - name: test
-  image: busybox
+  image: node:10
   commands:
-  - echo "this is a dummy test step"
+  - npm install
+  - npm test
 
-- name: build
-  image: busybox
-  commands:
-  - echo "this is a dummy build step"
-  - echo "dummy artifact" > /tmp/runtime-volume/data.txt
-  volumes:
-  - name: runtime-volume
-    path: /tmp/runtime-volume
-
-- name: deploy
-  image: busybox
-  commands:
-  - echo "this is a dummy deploy step"
-  - cat /tmp/runtime-volume/data.txt
-  volumes:
-  - name: runtime-volume
-    path: /tmp/runtime-volume
-
-volumes:
-  - name: runtime-volume
-    temp: {}
+- name: Build and Push Docker Image
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: seljuke/seljukes-node-chat-app
+    tags: latest
