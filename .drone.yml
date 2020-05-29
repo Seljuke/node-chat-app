@@ -1,6 +1,6 @@
 kind: pipeline
 type: kubernetes
-name: basic-example
+name: test&build
 
 steps:
 - name: test
