@@ -1,8 +1,29 @@
 version: 2.1
 orbs:
   node: circleci/node@3.0.0
+  docker: circleci/docker@1.4.0
+
+jobs:
+  docker-build-push:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: seljuke/seljuke-$CIRCLE_PROJECT_REPONAME
+      - docker/push:
+          digest-path: /tmp/digest.txt
+          image: my_repo/orb-test
+      - run:
+          command: |
+            echo "Digest is: $(</tmp/digest.txt)"
 
 workflows:
   node-tests:
     jobs:
       - node/test
+      - docker-build-push:
+          requires:
+            - node/test
+      
