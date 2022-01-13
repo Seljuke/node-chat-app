@@ -4,10 +4,13 @@ const bodyParser = require('body-parser');
 const _ = require("lodash");
 const path = require("path");
 const socketIO = require("socket.io");
+const { log } = require("./config/config.js");
 
 const {generateMessage, generateLocationMessage} = require("./utils/message");
 const {isRealString} = require("./utils/validation");
 const {Users} = require("./utils/users");
+
+log.info("Log level:", global.gConfig.LOG_LEVEL);
 
 const publicPath = path.join(__dirname, "../public");
 const port = process.env.PORT || 3000;
@@ -22,7 +25,7 @@ app.use(express.static(publicPath));
 app.use(bodyParser.json());
 
 io.on("connection", (socket) => {
-    console.log("New User Connected");
+    log.info("New User Connected");
 
     socket.on("updateRoomList", (data, callback) => {
         callback(users.getRoomList());
@@ -80,7 +83,7 @@ io.on("connection", (socket) => {
 });
 
 server.listen(port, () => {
-    console.log(`Started on port ${port}`);
+    log.info(`Started on port ${port}`);
 });
   
 module.exports = {app};

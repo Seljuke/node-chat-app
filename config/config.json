@@ -1,0 +1,8 @@
+{
+    "development": {
+        "LOG_LEVEL": "debug"
+    },
+    "production": {
+        "LOG_LEVEL": "info"
+    }
+}
