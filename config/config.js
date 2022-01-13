@@ -8,9 +8,9 @@ const environmentConfig = config[environment];
 const finalConfig = _.merge(defaultConfig, environmentConfig);
 finalConfig.LOG_LEVEL = (process.env.LOG_LEVEL || finalConfig.LOG_LEVEL).toLowerCase();
 if( environment == "production" ) {
-    var log = bunyan.createLogger({ name: "conducktor", level: finalConfig.LOG_LEVEL, localtime: new Date().toISOString() });
+    var log = bunyan.createLogger({ name: "node-chat-app", level: finalConfig.LOG_LEVEL, localtime: new Date().toISOString() });
 } else {
-    var log = bunyan.createLogger({ name: "conducktor", level: finalConfig.LOG_LEVEL});
+    var log = bunyan.createLogger({ name: "node-chat-app", level: finalConfig.LOG_LEVEL});
 }
 
 finalConfig.LOG_LEVEL = process.env.LOG_LEVEL || finalConfig.LOG_LEVEL;

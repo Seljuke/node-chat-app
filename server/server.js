@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const _ = require("lodash");
 const path = require("path");
 const socketIO = require("socket.io");
-const { log } = require("./config/config.js");
+const { log } = require("../config/config.js");
 
 const {generateMessage, generateLocationMessage} = require("./utils/message");
 const {isRealString} = require("./utils/validation");
